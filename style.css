@@ -1,0 +1,227 @@
+/* ═════════════════════════════════════════════
+   深言 DeepTalk · 玻璃拟态霓虹聊天舱
+   ═════════════════════════════════════════════ */
+:root {
+  --bg-0: #07080f;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-2: rgba(255, 255, 255, 0.08);
+  --line: rgba(255, 255, 255, 0.1);
+  --text-1: #e9ecff;
+  --text-2: #8b93b8;
+  --cyan: #37f2e6;
+  --violet: #9b6cff;
+  --pink: #ff5c9e;
+  --lime: #b8ff5c;
+  --soul: var(--cyan);
+  --mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  --sans: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg-0);
+  color: var(--text-1);
+  overflow: hidden;
+}
+
+/* ---------- 星云背景 ---------- */
+.nebula { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+.aurora {
+  position: absolute; width: 60vw; height: 60vw; border-radius: 50%;
+  filter: blur(90px); opacity: 0.16;
+  animation: drift 26s ease-in-out infinite alternate;
+}
+.a1 { background: var(--violet); top: -20vw; left: -10vw; }
+.a2 { background: var(--cyan); bottom: -25vw; right: -15vw; animation-delay: -12s; }
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(6vw, 4vw) scale(1.18); }
+}
+.star {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: #fff; opacity: 0.7;
+  animation: twinkle 3.4s ease-in-out infinite;
+}
+.s1 { top: 12%; left: 22%; }
+.s2 { top: 30%; left: 80%; animation-delay: 1.1s; }
+.s3 { top: 70%; left: 12%; animation-delay: 2s; }
+.s4 { top: 84%; left: 65%; animation-delay: 0.6s; }
+@keyframes twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.85; } }
+
+/* ---------- 玻璃舱 ---------- */
+.pod {
+  position: relative; z-index: 1;
+  height: 100dvh; max-width: 880px; margin: 0 auto;
+  display: flex; flex-direction: column;
+  padding: 18px 18px 14px;
+}
+
+/* 舱顶 */
+.pod-top {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 14px 18px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 20px 20px 8px 8px;
+  backdrop-filter: blur(18px);
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-core {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: conic-gradient(var(--cyan), var(--violet), var(--pink), var(--cyan));
+  box-shadow: 0 0 22px rgba(155, 108, 255, 0.55);
+  animation: spin 9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.brand h1 {
+  font-size: 19px; letter-spacing: 6px; font-weight: 700;
+  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.brand small { display: block; font-size: 10.5px; color: var(--text-2); letter-spacing: 1px; }
+
+.souls { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.soul {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border: none; border-radius: 999px;
+  background: transparent; color: var(--text-2);
+  font-size: 13px; cursor: pointer; font-family: var(--mono);
+  border: 1px solid transparent;
+  transition: all 0.25s;
+}
+.soul .glyph { font-style: normal; font-size: 14px; }
+.soul:hover { color: var(--text-1); background: var(--glass-2); }
+.soul.active {
+  color: var(--bg-0); font-weight: 700;
+  background: var(--soul);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--soul) 60%, transparent);
+}
+.wipe {
+  padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  background: transparent; border: 1px solid var(--line);
+  color: var(--text-2); font-size: 12px; font-family: var(--mono);
+  transition: all 0.25s;
+}
+.wipe:hover { color: var(--pink); border-color: var(--pink); }
+
+/* 人格条 */
+.soul-banner {
+  margin-top: 8px; padding: 9px 18px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--soul) 14%, transparent), transparent 70%);
+  border-left: 3px solid var(--soul);
+  border-radius: 6px;
+  font-size: 12.5px; color: var(--text-2);
+  display: flex; align-items: baseline; gap: 10px;
+}
+.soul-banner b { color: var(--soul); font-family: var(--mono); font-size: 12px; }
+
+/* ---------- 对话流 ---------- */
+.stream {
+  flex: 1; overflow-y: auto; padding: 22px 8px;
+  display: flex; flex-direction: column; gap: 18px;
+  scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+}
+.stream::-webkit-scrollbar { width: 5px; }
+.stream::-webkit-scrollbar-thumb { background: var(--line); border-radius: 5px; }
+
+.msg { display: flex; gap: 12px; max-width: 82%; animation: rise 0.35s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+
+.msg.me { align-self: flex-end; flex-direction: row-reverse; }
+
+.avatar {
+  width: 36px; height: 36px; flex: none;
+  border-radius: 11px; display: grid; place-items: center;
+  font-size: 15px;
+}
+.avatar.ai {
+  background: color-mix(in srgb, var(--soul) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--soul) 45%, transparent);
+  color: var(--soul);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--soul) 25%, transparent);
+}
+.avatar.me { background: var(--glass-2); border: 1px solid var(--line); color: var(--text-2); font-size: 12px; font-family: var(--mono); }
+
+.bubble {
+  padding: 12px 16px; border-radius: 16px;
+  font-size: 14.5px; line-height: 1.75;
+  white-space: pre-wrap; word-break: break-word;
+}
+.msg.ai .bubble {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-top-left-radius: 4px;
+  backdrop-filter: blur(14px);
+}
+.msg.me .bubble {
+  background: linear-gradient(135deg, rgba(155, 108, 255, 0.32), rgba(55, 242, 230, 0.18));
+  border: 1px solid rgba(155, 108, 255, 0.35);
+  border-top-right-radius: 4px;
+}
+.meta {
+  margin-top: 8px; font-size: 10px; color: var(--text-2);
+  font-family: var(--mono); opacity: 0.8;
+}
+.meta a { color: var(--cyan); cursor: pointer; margin-right: 12px; }
+
+/* 光标 */
+.cursor {
+  display: inline-block; width: 8px; height: 16px;
+  background: var(--soul); vertical-align: -2px;
+  animation: blink 0.8s step-end infinite; margin-left: 2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ---------- 灵感引信 ---------- */
+.fuses { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 0 6px 10px; }
+.fuses-label { font-size: 11.5px; color: var(--text-2); font-family: var(--mono); }
+.fuse {
+  padding: 6px 13px; border-radius: 999px; cursor: pointer;
+  background: var(--glass); border: 1px solid var(--line);
+  color: var(--text-2); font-size: 12px;
+  transition: all 0.25s;
+}
+.fuse:hover {
+  color: var(--soul); border-color: var(--soul);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--soul) 30%, transparent);
+}
+
+/* ---------- 发射台 ---------- */
+.launch {
+  display: flex; gap: 12px; align-items: flex-end;
+  padding: 12px 14px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 8px 8px 20px 20px;
+  backdrop-filter: blur(18px);
+}
+#input {
+  flex: 1; resize: none; border: none; outline: none;
+  background: transparent; color: var(--text-1);
+  font-size: 14.5px; line-height: 1.6; font-family: var(--sans);
+  max-height: 130px; padding: 8px 4px;
+}
+#input::placeholder { color: var(--text-2); opacity: 0.7; }
+.fire {
+  padding: 11px 26px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 0 22px rgba(155, 108, 255, 0.4);
+  transition: transform 0.15s, box-shadow 0.25s;
+}
+.fire:hover { box-shadow: 0 0 34px rgba(255, 92, 158, 0.55); }
+.fire:active { transform: scale(0.95); }
+.fire:disabled { opacity: 0.4; cursor: wait; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 640px) {
+  .pod { padding: 10px; }
+  .souls { margin-left: 0; }
+  .soul { padding: 7px 10px; font-size: 12px; }
+  .msg { max-width: 92%; }
+  .brand small { display: none; }
+}

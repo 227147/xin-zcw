@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>深言 DeepTalk · AI 对话实验室</title>
+  <meta name="description" content="玻璃舱里的 AI 伙伴：四位人格化的智能体，流式对话、灵感碰撞，全部本地运行。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 霓虹星云背景 -->
+  <div class="nebula" aria-hidden="true">
+    <span class="star s1"></span><span class="star s2"></span>
+    <span class="star s3"></span><span class="star s4"></span>
+    <div class="aurora a1"></div><div class="aurora a2"></div>
+  </div>
+
+  <!-- ═══ 玻璃舱体 ═══ -->
+  <div class="pod">
+
+    <!-- 舱顶：人格切换 -->
+    <header class="pod-top">
+      <div class="brand">
+        <span class="brand-core"></span>
+        <div>
+          <h1>深 言</h1>
+          <small>DeepTalk · AI 对话实验室</small>
+        </div>
+      </div>
+      <nav class="souls" id="souls">
+        <button class="soul active" data-soul="nova">
+          <i class="glyph">✦</i>智识 · NOVA
+        </button>
+        <button class="soul" data-soul="muse">
+          <i class="glyph">❂</i>灵感 · MUSE
+        </button>
+        <button class="soul" data-soul="byte">
+          <i class="glyph">⌘</i>代码 · BYTE
+        </button>
+        <button class="soul" data-soul="echo">
+          <i class="glyph">≋</i>树洞 · ECHO
+        </button>
+      </nav>
+      <button class="wipe" id="wipeBtn" title="清空当前对话">清空 ✕</button>
+    </header>
+
+    <!-- 人格介绍条 -->
+    <div class="soul-banner" id="soulBanner">
+      <b id="bannerName">智识 NOVA</b>
+      <span id="bannerDesc">冷静可靠的通识伙伴，条理清晰，什么都能聊。</span>
+    </div>
+
+    <!-- 对话流 -->
+    <main class="stream" id="stream">
+      <div class="msg ai">
+        <div class="avatar ai"><i class="glyph">✦</i></div>
+        <div class="bubble">
+          你好，我是深言实验室里的第一个意识体。有什么想聊的，尽管说。
+          <div class="meta">本地模拟 · 无需联网</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 灵感引信 -->
+    <div class="fuses" id="fuses">
+      <span class="fuses-label">试试：</span>
+    </div>
+
+    <!-- 发射台 -->
+    <footer class="launch">
+      <textarea id="input" rows="1" placeholder="向 AI 说出你的想法…（Enter 发送 / Shift+Enter 换行）"></textarea>
+      <button class="fire" id="sendBtn"><span>发送</span></button>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
